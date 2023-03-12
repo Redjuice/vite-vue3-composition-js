@@ -545,3 +545,163 @@ module.exports = {
 ```
 
 执行 git cz 或者 npm run commit 提交代码
+
+### 配置 sass
+
+[sass](https://sass.bootcss.com/) 是世界上最成熟、稳定、强大的专业级 CSS 扩展语言。
+
+#### 安装
+
+```
+npm install -D sass
+```
+
+#### 在 .vue 模板文件中使用
+
+```
+<template></template>
+
+<style lang="scss">
+  .root {}
+</style>
+```
+
+### 配置 Element Plus
+
+[Element Plus](https://element-plus.org/zh-CN/) 是基于 Vue 3，面向设计师和开发者的组件库。
+
+#### 安装
+
+```
+npm install -S element-plus
+```
+
+#### 按需自动导入
+
+首先你需要安装 unplugin-vue-components 和 unplugin-auto-import 这两款插件
+
+[unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 可以实现按需自动导入组件
+
+[unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) 可以实现按需自动导入 API
+
+```
+npm install -D unplugin-vue-components unplugin-auto-import
+```
+
+然后把下列代码插入到 Vite 的配置文件中, 可以实现 ElementPlus 组件, API, 样式的自动按需导入
+
+```
+// vite.config.js
+import { defineConfig } from 'vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+export default defineConfig({
+  ...
+  plugins: [
+    ...
+    AutoImport({
+      resolvers: [ElementPlusResolver()], // ui库解析器
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()], // ui库解析器
+    }),
+  ],
+})
+```
+
+同时, 这两个插件也支持自定义组件和 vue3 hooks 的自动按需导入, 修改 Vite 的配置文件
+
+```
+export default defineConfig({
+  // ...
+  plugins: [
+    ...
+    AutoImport({
+      imports: ['vue'],
+      ...
+    }),
+    Components({
+      dirs: ['src/components'], // 指定组件位置，默认是src/components
+      ...
+    }),
+  ],
+})
+```
+
+#### 使用
+
+```
+<script setup>
+  const  = ref(Vite + Vue)
+</script>
+
+<template>
+  <HelloWorld :msg="msg" />
+</template>
+```
+
+#### 注意
+
+这里有个 bug 是如果有导入 vue3 hooks 的注释, 代码便会报错(Uncaught SyntaxError: Unexpected token '{'); 可以关注下这个 [issues](https://github.com/antfu/unplugin-auto-import/issues/332)
+
+```
+<script setup>
+  // import { ref } from 'vue' // 注意这里
+
+  const  = ref(Vite + Vue)
+</script>
+
+<template>
+  <HelloWorld :msg="msg" />
+</template>
+```
+
+同时 Eslint 会报：变量未定义的错误
+
+![unplugin-auto-import](./images/unplugin-auto-import.png)
+
+修改 Vite 的配置文件
+
+```
+export default defineConfig({
+  ...
+  plugins: [
+    ...
+    AutoImport({
+      ...
+      eslintrc: {
+        enabled: true,
+      },
+    }),
+  ],
+})
+```
+
+插件会在项目根目录生成类型文件 .eslintrc-auto-import.json ，确保该文件在 eslint 配置中被 extends：
+
+```
+// .eslintrc.cjs
+module.exports = {
+  extends: [
+    './.eslintrc-auto-import.json',
+  ],
+}
+```
+
+当 VS Code 中同时存在 TypeScript 和 JavaScript 文件时，TypeScript 会检测到 JavaScript 文件并尝试编译它们。这可能会导致 TypeScript 报告 JavaScript 文件的语法错误，因为 TypeScript 只识别 TypeScript 代码。
+
+![ts](./images/ts.png)
+
+要解决这个问题，可以在项目根目录中创建一个 tsconfig.json 文件，告诉 TypeScript 忽略 JavaScript 文件。 在 tsconfig.json 中添加以下配置：
+
+```
+// tsconfig.json
+{
+  "exclude": ["**/*.js"],
+  "compilerOptions": {
+    "allowJs": true
+  }
+}
+```
