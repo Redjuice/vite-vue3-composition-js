@@ -14,12 +14,13 @@
     "ls-lint": "ls-lint",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "commit": "git cz"
+    "commit": "git add . && git cz"
   },
   "dependencies": {
     "element-plus": "^2.2.36",
     "pinia": "^2.0.33",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",

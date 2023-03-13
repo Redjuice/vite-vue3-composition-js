@@ -497,7 +497,7 @@ npm install -D cz-customizable
 ```
 {
   "scripts": {
-    "commit": "git cz"
+    "commit": "git add . && git cz"
   },
 
   ...
@@ -723,9 +723,9 @@ npm install -S pinia
 修改 Vite 的配置文件
 
 ```
+// vite.config.js
 import path from "path"
 
-// vite.config.js
 export default defineConfig({
   // ...
   resolve: {
@@ -823,4 +823,92 @@ export default defineConfig({
  const countStore = useCountStore()
  countStore.updateCount(1)
  </script>
+```
+
+### 配置 Vue Router
+
+[Vue Router](https://router.vuejs.org/zh/) 为 Vue.js 提供富有表现力、可配置的、方便的路由
+
+#### 安装
+
+```
+npm install -S vue-router
+```
+
+#### 按需自动导入
+
+修改 Vite 的配置文件
+
+```
+// vite.config.js
+export default defineConfig({
+  // ...
+  plugins: [
+    ...
+    AutoImport({
+      imports: [
+        ...
+        vue-router
+      ],
+      ...
+    }),
+  ],
+})
+```
+
+#### 使用
+
+1. 新建 src/router 目录并在其下面创建 index.js，导出 router
+
+```
+ import { createRouter, createWebHistory } from 'vue-router';
+
+ const routes = [
+   {
+     path: '/login',
+     name: 'Login',
+     meta: {
+         title: '登录',
+     },
+     component: () => import('@/views/login.vue')
+   },
+   {
+       path: '/',
+       name: 'Index',
+       meta: {
+           title: '首页',
+       },
+       component: () => import('@/views/index.vue')
+   }
+ ]
+
+ const router = createRouter({
+   history: createWebHistory(),
+   routes
+ });
+ export default router;
+```
+
+2. 在 main.js 中引入并使用
+
+```
+ import { createApp } from 'vue'
+ import App from './App.vue'
+ import router from './router';
+
+ // 创建vue实例
+ const app = createApp(App);
+
+ app.use(router);
+
+ // 挂载实例
+ app.mount('#app');
+```
+
+3. 修改 App.vue
+
+```
+ <template>
+   <RouterView/>
+ </template>
 ```
