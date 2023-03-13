@@ -648,7 +648,7 @@ export default defineConfig({
 
 ```
 <script setup>
-  // import { ref } from 'vue' // 注意这里
+  // import { ref } from 'vue' // 注意不要这样写
 
   const  = ref(Vite + Vue)
 </script>
@@ -684,7 +684,9 @@ export default defineConfig({
 ```
 // .eslintrc.cjs
 module.exports = {
+  ...
   extends: [
+    ...
     './.eslintrc-auto-import.json',
   ],
 }
@@ -704,4 +706,121 @@ module.exports = {
     "allowJs": true
   }
 }
+```
+
+### 配置 Pinia
+
+[Pinia](https://pinia.vuejs.org/zh/) 是 Vue 官方团队推荐代替 Vuex 的一款轻量级状态管理库。
+
+#### 安装
+
+```
+npm install -S pinia
+```
+
+#### 按需自动导入
+
+修改 Vite 的配置文件
+
+```
+import path from "path"
+
+// vite.config.js
+export default defineConfig({
+  // ...
+  resolve: {
+    //设置别名
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
+  plugins: [
+    ...
+    AutoImport({
+      imports: [
+        ...
+        pinia
+      ],
+      ...
+    }),
+  ],
+})
+```
+
+#### 使用
+
+1. 新建 src/stores 目录并在其下面创建 index.js，导出 stores
+
+```
+ import { createPinia } from 'pinia'
+
+ const stores = createPinia()
+
+ export default stores
+```
+
+2. 在 main.js 中引入并使用
+
+```
+ import { createApp } from 'vue'
+ import App from './App.vue'
+ import stores from './store'
+ ​
+ // 创建vue实例
+ const app = createApp(App)
+ ​
+ // 挂载pinia
+ app.use(stores)
+ ​
+ // 挂载实例
+ app.mount('#app');
+```
+
+3. 定义 State： 在 src/stores 下面创建一个 count.js
+
+```
+ import { defineStore } from 'pinia'
+
+ export const useCountStore = defineStore({
+   id: 'count', // id必填，且需要唯一
+   state: () => {
+     return {
+      count: 0
+     }
+   },
+   actions: {
+     updateCount(count) {
+       this.count += count
+     }
+   }
+ })
+```
+
+4. 获取 State： 在 src/components/usePinia.vue 中使用
+
+```
+ <script setup>
+  import { useCountStore } from '@/stores/count'
+
+  const countStore = useCountStore()
+ </script>
+
+ <template>
+   <div>{{ countStore.count }}</div>
+ </template>
+```
+
+5. 修改 State：
+
+```
+ // 1. 直接修改 state （不建议）
+ countStore.count += 1
+
+ // 2. 通过 actions 去修改
+ <script setup>
+ import { useCountStore } from '@/store/user'
+
+ const countStore = useCountStore()
+ countStore.updateCount(1)
+ </script>
 ```

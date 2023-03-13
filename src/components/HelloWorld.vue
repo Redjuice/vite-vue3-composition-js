@@ -1,9 +1,15 @@
 <script setup>
+import { useCountStore } from '@/stores/count'
+
 defineProps({
   msg: String
 })
 
-const count = ref(0)
+const countStore = useCountStore()
+
+const add = () => {
+  countStore.updateCount(1)
+}
 
 const open = () => {
   ElMessage('this is a message.')
@@ -14,7 +20,9 @@ const open = () => {
   <h1>{{ msg }}</h1>
 
   <div class="card">
-    <el-button type="button" @click="count++">count is {{ count }}</el-button>
+    <el-button type="button" @click="add"
+      >count is {{ countStore.count }}</el-button
+    >
     <el-button type="button" @click="open">openMessage</el-button>
     <p>
       Edit
