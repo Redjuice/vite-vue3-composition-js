@@ -912,3 +912,49 @@ export default defineConfig({
    <RouterView/>
  </template>
 ```
+
+### 配置 VueUse
+
+[VueUse](https://vueuse.org/) 是一个基于 Composition API 的实用函数集合。
+
+#### 安装
+
+```
+npm install -S @vueuse/core
+```
+
+#### 按需自动导入
+
+修改 Vite 的配置文件
+
+```
+// vite.config.js
+export default defineConfig({
+  // ...
+  plugins: [
+    ...
+    AutoImport({
+      imports: [
+        ...
+        @vueuse/core
+      ],
+      ...
+    }),
+  ],
+})
+```
+
+#### 使用
+
+```
+<script setup>
+  import { useMouse } from '@vueuse/core'
+
+  const { x, y } = useMouse()
+</script>
+
+<template>
+  <h1> 测试 vueUse 的鼠标坐标 </h1>
+  <h3>Mouse: {{x}} x {{y}}</h3>
+</template>
+```

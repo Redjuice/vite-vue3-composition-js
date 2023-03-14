@@ -17,6 +17,7 @@
     "commit": "git add . && git cz"
   },
   "dependencies": {
+    "@vueuse/core": "^9.13.0",
     "element-plus": "^2.2.36",
     "pinia": "^2.0.33",
     "vue": "^3.2.45",
