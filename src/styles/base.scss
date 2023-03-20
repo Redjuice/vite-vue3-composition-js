@@ -1,0 +1,83 @@
+/* 基础样式类 */
+
+$line: 2, 3, 4; // 多行文本隐藏配置
+$selectors: 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50; // margin 与 padding配置
+/* stylelint-disable-next-line scss/dollar-variable-pattern */
+$fontWeight: 400, 500, 600; // 字重配置
+/* stylelint-disable-next-line scss/dollar-variable-pattern */
+$fontSize: 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42; // 字号配置
+$align: left, center, right; // 文本对其方式
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+// 内/外边距
+@each $item in $selectors {
+  .m-b-#{$item} {
+    margin-bottom: $item + px;
+  }
+  .m-t-#{$item} {
+    margin-top: $item + px;
+  }
+  .m-l-#{$item} {
+    margin-left: $item + px;
+  }
+  .m-r-#{$item} {
+    margin-right: $item + px;
+  }
+  .p-b-#{$item} {
+    padding-bottom: $item + px;
+  }
+  .p-t-#{$item} {
+    padding-top: $item + px;
+  }
+  .p-l-#{$item} {
+    padding-left: $item + px;
+  }
+  .p-r-#{$item} {
+    padding-right: $item + px;
+  }
+}
+
+// 字体
+@each $item in $fontWeight {
+  .font-weight-#{$item} {
+    font-weight: $item;
+  }
+}
+
+@each $item in $fontSize {
+  .font-#{$item} {
+    font-size: $item + px;
+  }
+}
+
+@each $item in $align {
+  .text-#{$item} {
+    text-align: $item;
+  }
+}
+
+// 单行隐藏显示...
+.character-hiding-o {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 多行文本...
+@each $item in $line {
+  .character-hiding-#{$item} {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: #{$item};
+  }
+}

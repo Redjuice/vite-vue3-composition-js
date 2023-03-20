@@ -1,0 +1,59 @@
+/* flex 布局类 */
+
+%flex {
+  display: flex;
+}
+
+.flex {
+  @extend %flex;
+}
+
+.flex-align {
+  @extend %flex;
+
+  align-items: center;
+}
+
+.flex-center {
+  @extend %flex;
+
+  justify-content: center;
+}
+
+.flex-start {
+  @extend %flex;
+
+  justify-content: flex-start;
+}
+
+.flex-start-center {
+  @extend %flex;
+
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flex-end {
+  @extend %flex;
+
+  justify-content: flex-end;
+}
+
+.flex-between {
+  @extend %flex;
+
+  justify-content: space-between;
+}
+
+.flex-between-center {
+  @extend %flex;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-around {
+  @extend %flex;
+
+  justify-content: space-around;
+}

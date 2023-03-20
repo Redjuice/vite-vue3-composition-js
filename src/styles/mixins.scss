@@ -1,0 +1,8 @@
+/* 公共的mixins函数 */
+
+// px2vw
+$base-width: 1920;
+
+@function vw($px) {
+  @return calc($px / $base-width) * 100vw;
+}

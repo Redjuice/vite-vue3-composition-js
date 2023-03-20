@@ -958,3 +958,25 @@ export default defineConfig({
   <h3>Mouse: {{x}} x {{y}}</h3>
 </template>
 ```
+
+### 配置全局样式文件
+
+新建 `src/styles` 文件夹, 用于存放全局样式类, 全局样式变量, 重置 elementUI 样式等
+
+#### 配置样式文件全局注入
+
+修改 Vite 的配置文件
+
+```
+// vite.config.js
+export default defineConfig({
+  // ...
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "@/styles/index.scss";'
+      }
+    }
+  }
+})
+```

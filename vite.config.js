@@ -25,5 +25,12 @@ export default defineConfig({
     Components({
       resolvers: [ElementPlusResolver()]
     })
-  ]
+  ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "@/styles/index.scss";'
+      }
+    }
+  }
 })
